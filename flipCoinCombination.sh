@@ -74,18 +74,18 @@ then
 else
 	echo "Winning combination is singlet tails"
 fi
-echo $head_count
-echo $tail_count
-echo $hh_count
-echo $ht_count
-echo $th_count
-echo $tt_count
-echo $hhh_count
-echo $hht_count
-echo $hth_count
-echo $htt_count
-echo $thh_count
-echo $tht_count
-echo $tth_count
-echo $ttt_count
+echo Head count is $head_count
+echo Tail count is $tail_count
+echo HH count is $hh_count
+echo HT count is $ht_count
+echo TH count is $th_count
+echo TT count is $tt_count
+echo HHH count is $hhh_count
+echo HHT count is $hht_count
+echo HTH count is $hth_count
+echo HTT count is $htt_count
+echo THH count is $thh_count
+echo THT count is $tht_count
+echo TTH count is $tth_count
+echo TTT count is $ttt_count
 
