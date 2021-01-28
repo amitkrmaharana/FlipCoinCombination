@@ -1,7 +1,12 @@
-#!/bin/bash
-declare -A triplet
+#!/bin/bash -x
 isHead=0
 isTail=1
+head_count=0
+tail_count=0
+hh_count=0
+ht_count=0
+th_count=0
+tt_count=0
 hhh_count=0
 hht_count=0
 hth_count=0
@@ -10,63 +15,77 @@ thh_count=0
 tht_count=0
 tth_count=0
 ttt_count=0
+function Singlet() {
+		case $1 in
+			$isHead)(( head_count++ ));;
+			$isTail)(( tail_count++ ));;
+		esac
+}
+function Doublet() {
+		case $1 in
+			$isHead)case $2 in
+					$isHead)(( hh_count++ ));;
+					$isTail)(( ht_count++ ));;
+				esac;;
+			$isTail)case $2 in
+                	        	$isHead)(( th_count++ ));;
+                	        	$isTail)(( tt_count++ ));;
+                		esac;;
+
+		esac
+}
+function Triplet() {
+		case $1 in
+			$isHead)case $2 in
+					$isHead)case $3 in
+							$isHead)(( hhh_count++ ));;
+							$isTail)(( hht_count++ ));;
+						esac;;
+					$isTail)case $3 in
+        	                                        $isHead)(( hth_count++ ));;
+        	                                        $isTail)(( htt_count++ ));;
+        	                                esac;;
+				esac;;
+			$isTail)case $2 in
+	                        	$isHead)case $3 in
+	                                                $isHead)(( thh_count++ ));;
+	                                                $isTail)(( tht_count++ ));;
+	                                        esac;;
+	                        	$isTail)case $3 in
+	                                                $isHead)(( tth_count++ ));;
+	                                                $isTail)(( ttt_count++ ));;
+	                                        esac;;
+	                	esac;;
+		esac
+}
 echo "Welcome to Flip Coin Combination Simulator Program"
 for((i=1;i<=20;i++))
 do
 	flipCoin1=$((RANDOM%2))
 	flipCoin2=$((RANDOM%2))
 	flipCoin3=$((RANDOM%2))
-	case $flipCoin1 in
-		$isHead)case $flipCoin2 in
-				$isHead)case $flipCoin3 in
-						$isHead)triplet["flip$i"]="HHH"
-							(( hhh_count++ ));;
-						$isTail)triplet["flip$i"]="HHT"
-							(( hht_count++ ));;
-					esac;;
-				$isTail)case $flipCoin3 in
-                                                $isHead)triplet["flip$i"]="HTH"
-                                                        (( hth_count++ ));;
-                                                $isTail)triplet["flip$i"]="HTT"
-                                                        (( htt_count++ ));;
-                                        esac;;
-
-			esac;;
-		$isTail)case $flipCoin2 in
-                        	$isHead)case $flipCoin3 in
-                                                $isHead)triplet["flip$i"]="THH"
-                                                        (( thh_count++ ));;
-                                                $isTail)triplet["flip$i"]="THT"
-                                                        (( tht_count++ ));;
-                                        esac;;
-
-                        	$isTail)case $flipCoin3 in
-                                                $isHead)triplet["flip$i"]="TTH"
-                                                        (( tth_count++ ));;
-                                                $isTail)triplet["flip$i"]="TTT"
-                                                        (( ttt_count++ ));;
-                                        esac;;
-
-                	esac;;
-
-	esac
+	Singlet $flipCoin1
+	Doublet $flipCoin1 $flipCoin2
+	Triplet $flipCoin1 $flipCoin2 $flipCoin3
 done
-hhh_percent=$((hhh_count*100/20))
-hht_percent=$((hht_count*100/20))
-hth_percent=$((hth_count*100/20))
-htt_percent=$((htt_count*100/20))
-thh_percent=$((thh_count*100/20))
-tht_percent=$((tht_count*100/20))
-tth_percent=$((tth_count*100/20))
-ttt_percent=$((ttt_count*100/20))
-echo ${triplet[@]}
-echo ${!triplet[@]}
-echo "Percentage of hhh is $hhh_percent"
-echo "Percentage of hht is $hht_percent"
-echo "Percentage of hth is $hth_percent"
-echo "Percentage of htt is $htt_percent"
-echo "Percentage of thh is $thh_percent"
-echo "Percentage of tht is $tht_percent"
-echo "Percentage of tth is $tth_percent"
-echo "Percentage of ttt is $ttt_percent"
+if [ $head_count -gt $tail_count ]
+then
+	echo "Winning combination is singlet heads"
+else
+	echo "Winning combination is singlet tails"
+fi
+echo $head_count
+echo $tail_count
+echo $hh_count
+echo $ht_count
+echo $th_count
+echo $tt_count
+echo $hhh_count
+echo $hht_count
+echo $hth_count
+echo $htt_count
+echo $thh_count
+echo $tht_count
+echo $tth_count
+echo $ttt_count
 
