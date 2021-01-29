@@ -88,4 +88,3 @@ echo THH count is $thh_count
 echo THT count is $tht_count
 echo TTH count is $tth_count
 echo TTT count is $ttt_count
-
